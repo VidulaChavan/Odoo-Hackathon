@@ -9,4 +9,14 @@ const { register, login } = require('../controllers/auth.controller');
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login);
 
+const authenticate = require('../middleware/auth.middleware');
+const requireRole = require('../middleware/role.middleware');
+
+router.post(
+  '/test-role',
+  authenticate,
+  requireRole('DISPATCHER'),
+  (req, res) => res.json({ ok: true, role: req.user.role })
+);
+
 module.exports = router;
