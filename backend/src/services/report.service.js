@@ -1,4 +1,5 @@
 const prisma = require("../lib/prisma");
+const { Parser } = require("json2csv");
 
 // Operational Cost = Fuel + Maintenance
 async function getOperationalCost(vehicleId) {
@@ -131,9 +132,57 @@ async function getVehicleROI(vehicleId) {
   };
 }
 
+async function exportCSV() {
+  const vehicles = await prisma.vehicle.findMany({
+    include: {
+      fuelLogs: true,
+      maintenanceLogs: true,
+      expenses: true,
+      trips: true,
+    },
+  });
+
+  const data = vehicles.map((vehicle) => {
+    const fuelCost = vehicle.fuelLogs.reduce(
+      (sum, log) => sum + log.cost,
+      0
+    );
+
+    const maintenanceCost = vehicle.maintenanceLogs.reduce(
+      (sum, log) => sum + log.cost,
+      0
+    );
+
+    const expenseCost = vehicle.expenses.reduce(
+      (sum, expense) => sum + expense.amount,
+      0
+    );
+
+    const revenue = vehicle.trips.reduce(
+      (sum, trip) => sum + (trip.revenue || 0),
+      0
+    );
+
+    return {
+      Vehicle: vehicle.name,
+      Registration: vehicle.registrationNumber,
+      FuelCost: fuelCost,
+      MaintenanceCost: maintenanceCost,
+      ExpenseCost: expenseCost,
+      Revenue: revenue,
+      OperationalCost: fuelCost + maintenanceCost,
+    };
+  });
+
+  const parser = new Parser();
+
+  return parser.parse(data);
+}
+
 module.exports = {
   getOperationalCost,
   getFuelEfficiency,
   getFleetUtilization,
   getVehicleROI,
+  exportCSV,
 };

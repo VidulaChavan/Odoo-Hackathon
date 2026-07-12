@@ -24,4 +24,5 @@ router.get(
   reportController.vehicleROI
 );
 
+router.get("/export/csv", reportController.exportCSV);
 module.exports = router;
