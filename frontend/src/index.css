@@ -2,3 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --elevated: #F4F4F2;
+  --border: #E7E5E4;
+  --text: #1C1C1F;
+  --muted: #6B6B76;
+  --accent: #C2570A;
+  --secondary: #6552E0;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
+}
+
+.dark {
+  --bg: #0A0A0F;
+  --surface: #16161F;
+  --elevated: #1F1F2B;
+  --border: #2A2A38;
+  --text: #F1F1F5;
+  --muted: #8A8A9A;
+  --accent: #FF8A1F;
+  --secondary: #7C6FFF;
+  --success: #34D399;
+  --warning: #FBBF24;
+  --danger: #F87171;
+}
