@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 // Create Context
 const AuthContext = createContext();
@@ -10,6 +11,29 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(
     localStorage.getItem("token") || null
   );
+  const [loading, setLoading] = useState(true);
+
+  // On mount: if a token exists in localStorage, decode it to restore user state
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      try {
+        const decoded = jwtDecode(storedToken);
+        setUser({
+          id: decoded.userId,
+          email: decoded.email,
+          role: decoded.role,
+        });
+        setToken(storedToken);
+      } catch (err) {
+        // token invalid/expired — clear it
+        localStorage.removeItem("token");
+        setUser(null);
+        setToken(null);
+      }
+    }
+    setLoading(false);
+  }, []);
 
   // Login Function
   const login = (userData, jwtToken) => {
@@ -34,6 +58,7 @@ export function AuthProvider({ children }) {
         token,
         login,
         logout,
+        loading,
       }}
     >
       {children}
