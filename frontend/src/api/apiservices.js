@@ -71,3 +71,19 @@ export const maintenanceService = {
     return res.data;
   }
 };
+export const getFleetUtilization = () =>
+  api.get("/api/reports/fleet-utilization");
+
+export const getOperationalCost = (vehicleId) =>
+  api.get(`/api/reports/operational-cost/${vehicleId}`);
+
+export const getFuelEfficiency = (vehicleId) =>
+  api.get(`/api/reports/fuel-efficiency/${vehicleId}`);
+
+export const getVehicleROI = (vehicleId) =>
+  api.get(`/api/reports/vehicle-roi/${vehicleId}`);
+
+export const exportCSV = () =>
+  api.get("/api/reports/export/csv", {
+    responseType: "blob",
+  });
