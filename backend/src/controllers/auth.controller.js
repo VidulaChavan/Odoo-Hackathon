@@ -33,10 +33,11 @@ const login = async (req, res) => {
     const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
-    res.json({ token, user: { id: user.id, email: user.email } });
+    res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
   } catch (err) {
-    res.status(500).json({ error: "Something went wrong" });
-  }
+  console.error("REGISTER ERROR:", err);
+  res.status(500).json({ error: "Something went wrong" });
+}
 };
 
 module.exports = { register, login };
