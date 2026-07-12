@@ -7,6 +7,89 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  role      Role
+}
+
+model Vehicle {
+  id                 Int              @id @default(autoincrement())
+  registrationNumber String           @unique
+  name               String
+  type               VehicleType
+  maxLoadCapacity    Float
+  odometer           Float
+  acquisitionCost    Float
+  status             VehicleStatus    @default(AVAILABLE)
+  createdAt          DateTime         @default(now())
+  expenses           Expense[]
+  fuelLogs           FuelLog[]
+  maintenanceLogs    MaintenanceLog[]
+  trips              Trip[]
+}
+
+model Driver {
+  id              Int          @id @default(autoincrement())
+  name            String
+  licenseNumber   String       @unique
+  licenseCategory String
+  licenseExpiry   DateTime
+  contactNumber   String
+  safetyScore     Float        @default(100)
+  status          DriverStatus @default(AVAILABLE)
+  createdAt       DateTime     @default(now())
+  trips           Trip[]
+}
+
+model Trip {
+  id              Int        @id @default(autoincrement())
+  source          String
+  destination     String
+  vehicleId       Int
+  driverId        Int
+  cargoWeight     Float
+  plannedDistance Float
+  actualDistance  Float?
+  fuelConsumed    Float?
+  revenue         Float?
+  status          TripStatus @default(DRAFT)
+  createdAt       DateTime   @default(now())
+  driver          Driver     @relation(fields: [driverId], references: [id])
+  vehicle         Vehicle    @relation(fields: [vehicleId], references: [id])
+}
+
+model MaintenanceLog {
+  id          Int               @id @default(autoincrement())
+  vehicleId   Int
+  serviceType String
+  cost        Float
+  date        DateTime
+  status      MaintenanceStatus @default(ACTIVE)
+  notes       String?
+  vehicle     Vehicle           @relation(fields: [vehicleId], references: [id])
+}
+
+model FuelLog {
+  id        Int      @id @default(autoincrement())
+  vehicleId Int
+  liters    Float
+  cost      Float
+  date      DateTime
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+model Expense {
+  id        Int         @id @default(autoincrement())
+  vehicleId Int
+  type      ExpenseType
+  amount    Float
+  date      DateTime
+  vehicle   Vehicle     @relation(fields: [vehicleId], references: [id])
+}
+
 enum Role {
   FLEET_MANAGER
   DISPATCHER
@@ -49,93 +132,4 @@ enum MaintenanceStatus {
 enum ExpenseType {
   TOLL
   MISC
-}
-
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  role      Role
-  createdAt DateTime @default(now())
-}
-
-model Vehicle {
-  id                 Int               @id @default(autoincrement())
-  registrationNumber String            @unique
-  name               String
-  type               VehicleType
-  maxLoadCapacity    Float
-  odometer           Float
-  acquisitionCost    Float
-  status             VehicleStatus     @default(AVAILABLE)
-  createdAt          DateTime          @default(now())
-
-  trips              Trip[]
-  maintenanceLogs    MaintenanceLog[]
-  fuelLogs           FuelLog[]
-  expenses           Expense[]
-}
-
-model Driver {
-  id              Int          @id @default(autoincrement())
-  name            String
-  licenseNumber   String       @unique
-  licenseCategory String
-  licenseExpiry   DateTime
-  contactNumber   String
-  safetyScore     Float        @default(100)
-  status          DriverStatus @default(AVAILABLE)
-  createdAt       DateTime     @default(now())
-
-  trips           Trip[]
-}
-
-model Trip {
-  id              Int        @id @default(autoincrement())
-  source          String
-  destination     String
-  vehicleId       Int
-  driverId        Int
-  cargoWeight     Float
-  plannedDistance Float
-  actualDistance  Float?
-  fuelConsumed    Float?
-  revenue         Float?
-  status          TripStatus @default(DRAFT)
-  createdAt       DateTime   @default(now())
-
-  vehicle         Vehicle    @relation(fields: [vehicleId], references: [id])
-  driver          Driver     @relation(fields: [driverId], references: [id])
-}
-
-model MaintenanceLog {
-  id          Int                @id @default(autoincrement())
-  vehicleId   Int
-  serviceType String
-  cost        Float
-  date        DateTime
-  status      MaintenanceStatus  @default(ACTIVE)
-  notes       String?
-
-  vehicle     Vehicle            @relation(fields: [vehicleId], references: [id])
-}
-
-model FuelLog {
-  id        Int      @id @default(autoincrement())
-  vehicleId Int
-  liters    Float
-  cost      Float
-  date      DateTime
-
-  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
-}
-
-model Expense {
-  id        Int         @id @default(autoincrement())
-  vehicleId Int
-  type      ExpenseType
-  amount    Float
-  date      DateTime
-
-  vehicle   Vehicle     @relation(fields: [vehicleId], references: [id])
 }
