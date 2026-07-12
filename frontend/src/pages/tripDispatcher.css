@@ -1,0 +1,51 @@
+/* Minimal stylesheet placeholder.
+   The original project had extensive styling here; it was deleted during git clean.
+   UI will still work without it, but table/layout may look unstyled. */
+
+.td-root{background:#0a0f1d;color:#f3f4f6;min-height:100vh;font-family:Outfit,Inter,sans-serif;display:flex}
+.td-sidebar{width:260px;background:#111827;border-right:1px solid rgba(255,255,255,.05);padding:24px;box-sizing:border-box}
+.td-sidebar__brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.td-sidebar__logo{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#06b6d4,#6366f1);font-weight:900}
+.td-sidebar__section-label{color:#9ca3af;font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 10px}
+.td-sidebar__item{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;color:#9ca3af;text-decoration:none}
+.td-sidebar__item--active{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.25);color:#fff}
+.td-main{flex:1;display:flex;flex-direction:column}
+.td-topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.05)}
+.td-topbar__title{margin:0;font-size:22px;font-weight:800}
+.td-topbar__date{color:#9ca3af;font-size:12px}
+.td-content{padding:20px}
+.td-card{background:rgba(20,29,47,.6);border:1px solid rgba(255,255,255,.03);border-radius:14px;padding:16px}
+.td-card__head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.td-head-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.td-search{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:10px;color:#fff;min-width:200px}
+.td-filter-pills{display:flex;gap:8px}
+.td-pill{background:transparent;border:1px solid rgba(255,255,255,.08);color:#9ca3af;padding:8px 10px;border-radius:10px;cursor:pointer}
+.td-pill--active{background:rgba(255,255,255,.08);color:#fff}
+.td-table{width:100%;border-collapse:collapse}
+.td-table th,.td-table td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;font-size:13px}
+.td-empty{text-align:center;color:#9ca3af}
+.td-muted{color:#9ca3af}
+.td-trip-id{font-family:monospace;font-weight:800}
+.td-badge{font-size:12px;font-weight:800;padding:4px 8px;border-radius:8px}
+.badge-active{background:rgba(249,115,22,.15);color:#f97316}
+.badge-pending{background:rgba(234,179,8,.15);color:#f59e0b}
+.badge-completed{background:rgba(34,197,94,.15);color:#22c55e}
+.badge-cancelled{background:rgba(239,68,68,.15);color:#ef4444}
+.td-toasts{position:fixed;top:16px;right:16px;z-index:999;display:flex;flex-direction:column;gap:10px}
+.td-toast{display:flex;align-items:center;gap:10px;background:rgba(17,24,39,.9);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px}
+.td-toast button{background:transparent;border:none;color:#9ca3af;font-size:18px;cursor:pointer}
+.td-toast__icon{font-weight:900}
+.td-toast--success{border-left:4px solid #10b981}
+.td-toast--error{border-left:4px solid #f43f5e}
+.td-toast--info{border-left:4px solid #06b6d4}
+.td-toast--warning{border-left:4px solid #f59e0b}
+.td-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:1000}
+.td-modal{width:min(760px,92vw);background:rgba(17,24,39,.95);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px}
+.td-modal__header{display:flex;justify-content:space-between;align-items:center}
+.td-modal__close{background:transparent;border:none;color:#fff;font-size:26px;cursor:pointer}
+.td-modal__grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.td-field{display:flex;flex-direction:column;gap:6px}
+.td-field label{color:#9ca3af;font-size:12px;font-weight:700;text-transform:uppercase}
+.td-field input,.td-field select{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);padding:10px;border-radius:10px;color:#fff}
+.td-field--full{grid-column:1/-1}
+.td-modal__submit{margin-top:14px;padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(135deg,#06b6d4,#6366f1);color:#fff;font-weight:800;cursor:pointer}
