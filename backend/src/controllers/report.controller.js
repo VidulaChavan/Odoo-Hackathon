@@ -36,9 +36,25 @@ async function vehicleROI(req, res) {
   }
 }
 
+async function exportCSV(req, res) {
+  try {
+    const csv = await reportService.exportCSV();
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("fleet-report.csv");
+
+    return res.send(csv);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+}
+
 module.exports = {
   operationalCost,
   fuelEfficiency,
   fleetUtilization,
   vehicleROI,
+  exportCSV,
 };
