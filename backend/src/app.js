@@ -9,6 +9,7 @@ const expenseRoutes = require("./routes/expense.routes");
 const vehicleRoutes = require('./routes/vehicle.routes');
 const maintenanceRoutes = require('./routes/maintenance.routes');
 const reportRoutes = require("./routes/report.routes");
+const tripRoutes = require('./routes/trip.routes');
 
 const app = express();
 app.use(cors());
@@ -16,10 +17,11 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.send('Server is running'));
 app.use('/api/auth', authRoutes);
-app.use("/api/drivers", driverRoutes);
-app.use("/api/fuel", fuelRoutes);
-app.use("/api/expenses", expenseRoutes);
+app.use('/api/drivers', driverRoutes);
+app.use('/api/fuel', fuelRoutes);
+app.use('/api/expenses', expenseRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/vehicles/:vehicleId/maintenance', maintenanceRoutes);
-app.use("/api/reports", reportRoutes);
+app.use('/api/trips', tripRoutes);
+app.use('/api/reports', reportRoutes);
 module.exports = app;

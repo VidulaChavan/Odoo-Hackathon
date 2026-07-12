@@ -7,7 +7,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import Dashboard from "./pages/Dashboard"; // will become Dashboard.jsx in next block
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-
+import TripDispatcher from "./pages/TripDispatcher";
 // Handles the root "/" redirect per spec: logged in -> dashboard, else -> login
 function RootRedirect() {
   const { user, loading } = useAuth();
@@ -30,6 +30,14 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+  path="/trips"
+  element={
+    <ProtectedRoute allowedRoles={["DISPATCHER"]}>
+      <TripDispatcher />
+    </ProtectedRoute>
+  }
+/>
 
       {/* Add teammates' routes below as they push, wrapped in ProtectedRoute
           with allowedRoles matching the spec's access table, e.g.:
