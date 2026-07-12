@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const prisma = require('../lib/prisma');
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   try {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
@@ -11,9 +11,9 @@ const register = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword },
+      data: { email, password: hashedPassword, role },
     });
-    res.status(201).json({ id: user.id, email: user.email });
+    res.status(201).json({ id: user.id, email: user.email, role: user.role });
   } catch (err) {
     res.status(500).json({ error: "Something went wrong" });
   }
@@ -30,7 +30,7 @@ const login = async (req, res) => {
     if (!valid) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: '1d',
     });
     res.json({ token, user: { id: user.id, email: user.email } });
