@@ -36,6 +36,24 @@ export const vehicleService = {
   }
 };
 
+export const reportService = {
+  getFleetUtilization: async () => {
+    const res = await api.get('/api/reports/fleet-utilization');
+    return res.data;
+  },
+  getFuelEfficiency: async (vehicleId) => {
+    const res = await api.get(`/api/reports/fuel-efficiency/${vehicleId}`);
+    return res.data;
+  },
+};
+
+export const tripService = {
+  getAll: async () => {
+    const res = await api.get('/api/trips');
+    return res.data;
+  },
+};
+
 /**
  * 🔧 MAINTENANCE LEDGER ENDPOINTS
  * Plugs directly into your maintenance controller functions.
